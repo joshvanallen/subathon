@@ -1,0 +1,113 @@
+{
+  "name": "subathon",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "jvasoftware",
+  "sourceRoot": "packages/subathon/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:browser",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "options": {
+        "outputPath": "dist/packages/subathon",
+        "index": "packages/subathon/src/index.html",
+        "main": "packages/subathon/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "packages/subathon/tsconfig.app.json",
+        "assets": [
+          "packages/subathon/src/favicon.ico",
+          "packages/subathon/src/assets"
+        ],
+        "styles": [
+          "@angular/material/prebuilt-themes/indigo-pink.css",
+          "packages/subathon/src/styles.css"
+        ],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "fileReplacements": [
+            {
+              "replace": "packages/environments/src/lib/frontend-environment.ts",
+              "with": "packages/environments/src/lib/frontend-environment.prod.ts"
+            }
+          ],
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "buildOptimizer": false,
+          "optimization": false,
+          "vendorChunk": true,
+          "extractLicenses": false,
+          "sourceMap": true,
+          "namedChunks": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "browserTarget": "subathon:build:production"
+        },
+        "development": {
+          "proxyConfig": "packages/subathon/proxy.config.js",
+          "browserTarget": "subathon:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "browserTarget": "subathon:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": [
+        "{options.outputFile}"
+      ],
+      "options": {
+        "lintFilePatterns": [
+          "packages/subathon/**/*.ts",
+          "packages/subathon/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": [
+        "{workspaceRoot}/coverage/{projectRoot}"
+      ],
+      "options": {
+        "jestConfig": "packages/subathon/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  }
+}

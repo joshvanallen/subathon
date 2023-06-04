@@ -1,0 +1,26 @@
+{
+  "name": "lambdas-shared-layer",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/lambdas/shared-layer/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/lambdas/shared-layer",
+        "main": "packages/lambdas/shared-layer/src/index.ts",
+        "tsConfig": "packages/lambdas/shared-layer/tsconfig.lib.json",
+        "assets": ["packages/lambdas/shared-layer/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/lambdas/shared-layer/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

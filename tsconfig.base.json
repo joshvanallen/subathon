@@ -14,7 +14,22 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@subathon/dynamodb": ["packages/dynamodb/src/index.ts"],
+      "@subathon/environments": ["packages/environments/src/index.ts"],
+      "@subathon/express-apigateway": [
+        "packages/express-apigateway/src/index.ts"
+      ],
+      "@subathon/lambdas/shared-layer": [
+        "packages/lambdas/shared-layer/src/index.ts"
+      ],
+      "@subathon/models/responses": ["packages/models/responses/src/index.ts"],
+      "@subathon/models/twitch": ["packages/models/twitch/src/index.ts"],
+      "@subathon/models/websocket-messages": [
+        "packages/models/websocket-messages/src/index.ts"
+      ],
+      "@subathon/twitch-api": ["packages/twitch-api/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

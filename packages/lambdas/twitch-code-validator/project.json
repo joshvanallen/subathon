@@ -1,0 +1,87 @@
+{
+  "name": "lambdas-twitch-code-validator",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/lambdas/twitch-code-validator/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/packages/lambdas/twitch-code-validator",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "packages/lambdas/twitch-code-validator/src/main.ts",
+        "tsConfig": "packages/lambdas/twitch-code-validator/tsconfig.app.json",
+        "assets": ["packages/lambdas/twitch-code-validator/src/assets"],
+        "generatePackageJson": true,
+        "thirdParty": false,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "main":"packages/lambdas/twitch-code-validator/src/main.prod.ts",
+          "outputFileName": "main",
+          "thirdParty": true,
+          "bundle": true,
+          "external": ["@aws-sdk*"],
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "lambdas-twitch-code-validator:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "lambdas-twitch-code-validator:build:development"
+        },
+        "production": {
+          "buildTarget": "lambdas-twitch-code-validator:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/lambdas/twitch-code-validator/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/lambdas/twitch-code-validator/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "command": "tar -C dist/packages/lambdas/twitch-code-validator -caf dist/packages/lambdas/twitch-code-validator/output.zip *.js"
+    }
+  },
+  "tags": []
+}

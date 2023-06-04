@@ -1,0 +1,72 @@
+{
+  "name": "clock",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "packages/clock/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/packages/clock"
+      },
+      "configurations": {
+        "development": {
+          "mode": "development"
+        },
+        "production": {
+          "mode": "production"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/vite:dev-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "clock:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "clock:build:development",
+          "hmr": true
+        },
+        "production": {
+          "buildTarget": "clock:build:production",
+          "hmr": false
+        }
+      }
+    },
+    "preview": {
+      "executor": "@nx/vite:preview-server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "clock:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "clock:build:development"
+        },
+        "production": {
+          "buildTarget": "clock:build:production"
+        }
+      }
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["coverage/packages/clock"],
+      "options": {
+        "passWithNoTests": true,
+        "reportsDirectory": "../../coverage/packages/clock"
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/clock/**/*.ts"]
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "name": "models-responses",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/models/responses/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/js:tsc",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/models/responses",
+        "main": "packages/models/responses/src/index.ts",
+        "tsConfig": "packages/models/responses/tsconfig.lib.json",
+        "assets": ["packages/models/responses/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/models/responses/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

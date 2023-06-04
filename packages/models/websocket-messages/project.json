@@ -1,0 +1,27 @@
+{
+  "name": "models-websocket-messages",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/models/websocket-messages/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/models/websocket-messages",
+        "main": "packages/models/websocket-messages/src/index.ts",
+        "tsConfig": "packages/models/websocket-messages/tsconfig.lib.json",
+        "assets": ["packages/models/websocket-messages/*.md"],
+        "generatePackageJson": true
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/models/websocket-messages/**/*.ts"]
+      }
+    }
+  },
+  "tags": []
+}

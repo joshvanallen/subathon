@@ -1,0 +1,88 @@
+{
+  "name": "lambdas-subathon-websocket-message",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/lambdas/subathon-websocket-message/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/packages/lambdas/subathon-websocket-message",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "packages/lambdas/subathon-websocket-message/src/main.ts",
+        "tsConfig": "packages/lambdas/subathon-websocket-message/tsconfig.app.json",
+        "assets": ["packages/lambdas/subathon-websocket-message/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "main":"packages/lambdas/subathon-websocket-message/src/main.prod.ts",
+          "outputFileName": "main",
+          "thirdParty": true,
+          "bundle": true,
+          "external": ["@aws-sdk*"],
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "lambdas-subathon-websocket-message:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "lambdas-subathon-websocket-message:build:development"
+        },
+        "production": {
+          "buildTarget": "lambdas-subathon-websocket-message:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "packages/lambdas/subathon-websocket-message/**/*.ts"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/lambdas/subathon-websocket-message/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "command": "tar -C dist/packages/lambdas/subathon-websocket-message -caf dist/packages/lambdas/subathon-websocket-message/output.zip *.js"
+    }
+  },
+  "tags": []
+}

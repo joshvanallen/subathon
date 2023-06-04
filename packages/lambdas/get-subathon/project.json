@@ -1,0 +1,86 @@
+{
+  "name": "lambdas-get-subathon",
+  "$schema": "../../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/lambdas/get-subathon/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/esbuild:esbuild",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "platform": "node",
+        "outputPath": "dist/packages/lambdas/get-subathon",
+        "format": ["cjs"],
+        "bundle": false,
+        "main": "packages/lambdas/get-subathon/src/main.ts",
+        "tsConfig": "packages/lambdas/get-subathon/tsconfig.app.json",
+        "assets": ["packages/lambdas/get-subathon/src/assets"],
+        "generatePackageJson": true,
+        "esbuildOptions": {
+          "sourcemap": true,
+          "outExtension": {
+            ".js": ".js"
+          }
+        }
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "main":"packages/lambdas/get-subathon/src/main.prod.ts",
+          "outputFileName": "main",
+          "thirdParty": true,
+          "bundle": true,
+          "external": ["@aws-sdk*"],
+          "esbuildOptions": {
+            "sourcemap": false,
+            "outExtension": {
+              ".js": ".js"
+            }
+          }
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "lambdas-get-subathon:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "lambdas-get-subathon:build:development"
+        },
+        "production": {
+          "buildTarget": "lambdas-get-subathon:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/lambdas/get-subathon/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "packages/lambdas/get-subathon/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    },
+    "deploy": {
+      "dependsOn": ["build"],
+      "command": "tar -C dist/packages/lambdas/get-subathon -caf dist/packages/lambdas/get-subathon/output.zip *.js"
+    }
+  },
+  "tags": []
+}
